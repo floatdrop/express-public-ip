@@ -3,12 +3,11 @@
 var assert = require('assert');
 var expressPublicIp = require('./');
 
-function createReq(socketAddr, headers) {
+function createReq(xff) {
 	return {
-		connection: {
-			remoteAddress: socketAddr
-		},
-		headers: headers || {}
+		headers: {
+			'x-forwarded-for': xff
+		}
 	};
 }
 
@@ -23,7 +22,7 @@ var privateAddresses = [
 
 it('should filter private addresses', function () {
 	privateAddresses.forEach(function (ip) {
-		var req = createReq('127.0.0.1', {'x-forwarded-for': ip});
+		var req = createReq(ip);
 		expressPublicIp()(req, {}, function () {
 			assert.equal(req.headers['x-forwarded-for'], '');
 		});
@@ -31,8 +30,22 @@ it('should filter private addresses', function () {
 });
 
 it('should keep public address', function () {
-	var req = createReq('127.0.0.1', {'x-forwarded-for': '172.16.2.236, 1.3.3.7'});
+	var req = createReq('172.16.2.236, 1.3.3.7');
 	expressPublicIp()(req, {}, function () {
 		assert.equal(req.headers['x-forwarded-for'], '1.3.3.7');
+	});
+});
+
+it('should remove not ip-like stuff', function () {
+	var req = createReq('wow, 1.3.3.7');
+	expressPublicIp()(req, {}, function () {
+		assert.equal(req.headers['x-forwarded-for'], '1.3.3.7');
+	});
+});
+
+it('should keep x-forwarded-for order', function () {
+	var req = createReq('1.3.3.8, 1.3.3.7');
+	expressPublicIp()(req, {}, function () {
+		assert.equal(req.headers['x-forwarded-for'], '1.3.3.8, 1.3.3.7');
 	});
 });

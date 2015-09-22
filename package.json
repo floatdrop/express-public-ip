@@ -24,7 +24,6 @@
     "public"
   ],
   "dependencies": {
-    "forwarded": "^0.1.0",
     "ip": "^1.0.1"
   },
   "devDependencies": {
