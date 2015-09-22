@@ -1,6 +1,6 @@
 {
   "name": "express-public-ip",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Filter private addresses from req.ips",
   "license": "MIT",
   "repository": "floatdrop/express-public-ip",
@@ -19,7 +19,9 @@
     "index.js"
   ],
   "keywords": [
-    "express", "x-forwarded-for", "public"
+    "express",
+    "x-forwarded-for",
+    "public"
   ],
   "dependencies": {
     "forwarded": "^0.1.0",
