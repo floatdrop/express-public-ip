@@ -1,6 +1,6 @@
 {
   "name": "express-public-ip",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Filter private addresses from req.ips",
   "license": "MIT",
   "repository": "floatdrop/express-public-ip",
