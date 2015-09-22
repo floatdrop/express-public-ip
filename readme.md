@@ -14,8 +14,10 @@ $ npm install --save express express-public-ip
 
 ```js
 var app = require('express')();
-
 var expressPublicIp = require('express-public-ip');
+
+app.enable('trust proxy');
+
 app.use(expressPublicIp());
 
 app.get('/', function (req, res) {
