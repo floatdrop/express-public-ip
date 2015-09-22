@@ -29,3 +29,10 @@ it('should filter private addresses', function () {
 		});
 	});
 });
+
+it('should keep public address', function () {
+	var req = createReq('127.0.0.1', {'x-forwarded-for': '172.16.2.236, 1.3.3.7'});
+	expressPublicIp()(req, {}, function () {
+		assert.equal(req.headers['x-forwarded-for'], '1.3.3.7');
+	});
+});
